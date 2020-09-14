@@ -1,5 +1,10 @@
 function perspective(w, h, fov) {
 	// Build a perspective projection matrix, for a viewport whose size is determined by parameters w (width) and h (height), and whose fov-y is passed in parameter fov. Near plane is n=0.1, and far plane f=100.
+	/*
+	perspective projection matrix = [1/a*tan(angle/2),		0.0,		0.0,		0.0,
+			   			         	0.0,		1/tan(angle/2),		0.0,		0.0,
+			   				     	0.0,		0.0,		f+n/n-f,		2fn/n-f,
+			   					 	0.0,		0.0,		-1,		0.0]; */
 	var a = w/h
 	var angle = fov/2
 	var out = [1/(a*Math.tan(angle*Math.PI/180)),		0.0,		0.0,		0.0,
@@ -9,4 +14,6 @@ function perspective(w, h, fov) {
 
 	return out;
 }
+
+
 

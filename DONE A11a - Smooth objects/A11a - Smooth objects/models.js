@@ -90,32 +90,35 @@ function buildGeometry() {
 	///// Creates vertices
 	var vert4 = [[0.0, 1.0, 0.0]];
 	var norm4 = [[0.0, 1.0, 0.0]];
-
 	for(i = 0; i < 36; i++) {
-		vert4[i+1] = [Math.sin(i*10.0/180.0*Math.PI), -1.0, Math.cos(i*10.0/180.0*Math.PI)];
-		norm4[i+1] = [Math.sin(i*10.0/180.0*Math.PI), -0.8, Math.cos(i*10.0/180.0*Math.PI)];
+		vert4[i+1] = [0.0, 1.0, 0.0];
+		//norm4[i+1] = [Math.sin(i*10.0/180.0*Math.PI), 0.5, Math.cos(i*10.0/180.0*Math.PI)]; //This way I had multiple normals coming out from the top which lead to an incorrect solution
+		norm4[i+1] = [0.0,0.0,0.0] // this approach fixed the mistake described in the previous line, still im drawing it 36 times... correct result visually but logically meh...
+		vert4[i+37] = [Math.sin(i*10.0/180.0*Math.PI),-1.0, Math.cos(i*10.0/180.0*Math.PI)];
+		norm4[i+37] = [Math.sin(i*10.0/180.0*Math.PI), Math.cos(40/180.0*Math.PI), Math.cos(i*10.0/180.0*Math.PI)]; 
+		vert4[i+73] = [Math.sin(i*10.0/180.0*Math.PI),-1.0, Math.cos(i*10.0/180.0*Math.PI)];
+		norm4[i+73] = [0.0, -1.0, 0.0];
 	}
-	vert4[37] = [0.0, -1.0, 0.0]
-	norm4[37] = [0.0, -1.0, 0.0];
-	////// Creates indices
-	var ind4 = [];
-	//////// Upper part
-	j = 0;
-	for(i = 0; i < 36; i++) {
-		ind4[j++] = 0;
-		ind4[j++] = i + 1;
-		ind4[j++] = (i + 1) % 36 + 1;
-	}
-	//////// Lower part
-	for(i = 0; i < 36; i++) {
-		ind4[j++] = 37;
-		ind4[j++] = (i + 1) % 36 + 1;
-		ind4[j++] = i + 1;
-	}
-	
-	var color4 = [1.0, 0.0, 0.0];
-
-	addMesh(vert4, norm4, ind4, color4);
+		vert4[109] = [0.0, -1.0, 0.0];
+		norm4[109] = [0.0, -1.0, 0.0];
+		////// Creates indices
+		var ind4 = [];
+		//////// Upper part
+		j = 0;
+		for(i = 0; i < 36; i++) {
+			ind4[j++] = 0;
+			ind4[j++] = i + 37;
+			ind4[j++] = (i + 1) % 36 + 37;
+		}
+		//////// Lower part
+		for(i = 0; i < 36; i++) {
+			ind4[j++] = 109;
+			ind4[j++] = (i + 1) % 36 + 73;
+			ind4[j++] = i + 73;
+		}
+		
+		var color4 = [1, 0, 0];
+		addMesh(vert4, norm4, ind4, color4);
 
 
 	// Draws a Sphere --- Already done, just for inspiration
@@ -231,7 +234,7 @@ function buildGeometry() {
 	//First lateral part
 	//must start from 0, taking vertices like 0, 1, 36
 
-	for(i = 0; i < 1296; i++) {
+	for(i = 0; i < 1296; i++) { // 36*36 
 		
 		ind6[k++] = (i + 36) % 1296;
 		ind6[k++] = (i + 1) % 1296;

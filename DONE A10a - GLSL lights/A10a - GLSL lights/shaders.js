@@ -49,13 +49,13 @@ function shaders() {
 //
 // vec4 ambientColor;
 
-// Single directional light
+// Single directional light (like sunlight, hits all the objects with the same inclination)
 var S1 = `
 	lightDirA = LADir;
 	lightColorA = LAlightColor;
 `;
 
-// Single point light without decay
+// Single point light without decay (it has its own position, so to calculate the position I have to normalize the diff between the light and the pixel im considering)
 var S2 = `
 	lightDirA = normalize(LAPos - fs_pos);
 	lightColorA = LAlightColor;
@@ -68,14 +68,14 @@ var S3 = `
 	ambientColor = ambientLightColor;
 `;
 
-// Single point light with decay
+// Single point light with decay (decay = light intensity), target == distance at which the light has the desired "power"
 var S4 = `
 	lightDirA = normalize(LAPos - fs_pos);
-	lightColorA = LAlightColor * pow(LATarget / length(LAPos - fs_pos), LADecay);
+	lightColorA = LAlightColor * pow(LATarget / length(LAPos - fs_pos), LADecay); 
 	ambientColor = ambientLightColor;
 `;
 
-// Single spot light (with decay)
+// Single spot light (with decay) --> light model with pos, ray of view and decay ray (imagine to be on stage) "CONO DI LUCE"
 var S5 = `
 	float LCosOut = cos(radians(LAConeOut / 2.0));
 	float LCosIn = cos(radians(LAConeOut * LAConeIn / 2.0));
@@ -86,7 +86,7 @@ var S5 = `
 	ambientColor = ambientLightColor;
 `;
 
-// Single directional light, hemispheric ambient 
+// Single directional light, hemispheric ambient (color from top and bottom)
 var S6 = `
 	float amBlend = (dot(normalVec, ADir) + 1.0) / 2.0;
 	lightDirA = LADir;

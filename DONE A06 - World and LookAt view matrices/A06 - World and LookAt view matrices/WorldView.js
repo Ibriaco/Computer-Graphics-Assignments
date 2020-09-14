@@ -9,22 +9,22 @@ function worldViewProjection(carx, cary, carz, cardir, camx, camy, camz) {
 
 	var world = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
      
-		var Ry = utils.MakeRotateYMatrix(cardir);
-		var T =  utils.MakeTranslateMatrix(carx, cary, carz);   
+		var Ry = utils.MakeRotateYMatrix(cardir)
+		var T =  utils.MakeTranslateMatrix(carx, cary, carz)
 
-		world = utils.multiplyMatrices(T, Ry);
+		world = utils.multiplyMatrices(T, Ry)
 	
-	var view  = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+	var view  = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
 
 		var u = [0, 1, 0]
 
 		var Vz = utils.normalizeVector3([camx-carx, camy-cary, camz-carz])
-		var Vx = utils.normalizeVector3(utils.crossVector(utils.normalizeVector3(u), Vz))
-		var Vy = utils.crossVector(Vz, Vx);
+		var Vx = utils.normalizeVector3(utils.crossVector(utils.normalizeVector3(u), Vz)) // u x vz / |u x vz|
+		var Vy = utils.crossVector(Vz, Vx) // vz x vx
 
 		var Mc = [Vx[0], Vy[0], Vz[0], camx, Vx[1], Vy[1], Vz[1], camy,  Vx[2], Vy[2], Vz[2], camz,  0.0,   0.0,   0.0,  1.0]
 
-		view = utils.invertMatrix(Mc)
+		view = utils.invertMatrix(Mc) // Mv = [Mc]^-1
 
 	return [world, view];
 }

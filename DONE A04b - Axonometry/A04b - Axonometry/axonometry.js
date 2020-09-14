@@ -7,8 +7,8 @@ function transformation_1(){
 		0.0,		0.0,		0.0,		1.0];
 
 	A1 = utils.MakeParallel(50, 16/9, 1, 101)
-	var rotationOnX = utils.MakeRotateXMatrix(45)
-	var rotationOnY = utils.MakeRotateYMatrix(35.26)
+	var rotationOnX = utils.MakeRotateXMatrix(35.26)
+	var rotationOnY = utils.MakeRotateYMatrix(45)
 	A1 = utils.multiplyMatrices(A1, rotationOnX)
 	A1 = utils.multiplyMatrices(A1, rotationOnY)
 
